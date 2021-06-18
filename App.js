@@ -1,26 +1,56 @@
 import "react-native-gesture-handler";
+
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
-			<StatusBar style="auto" />
+			<Button
+				title="Go to details"
+				onPress={() => navigation.navigate("Details")}
+			/>
 		</View>
 	);
 };
 
-export default function App() {
+const DetailsScreen = () => {
 	return (
-		<NavigationContainer style={styles.container}>
-			<Text>Home Screen</Text>
-			<StatusBar style="auto" />
+		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+			<Text>Details Screen</Text>
+		</View>
+	);
+};
+
+const Stack = createStackNavigator();
+
+const App = () => {
+	return (
+		<NavigationContainer>
+			<Stack.Navigator
+				initialRouteName="Home"
+				screenOptions={{
+					headerStyle: { backgroundColor: "#774c60" },
+					headerTintColor: "#fff",
+					headerTitleStyle: {
+						fontWeight: "bold",
+					},
+				}}
+			>
+				<Stack.Screen
+					name="Home"
+					component={HomeScreen}
+					options={{ title: "Check your slot" }}
+				/>
+				<Stack.Screen name="Details" component={DetailsScreen} />
+			</Stack.Navigator>
 		</NavigationContainer>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -31,3 +61,5 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 });
+
+export default App;
