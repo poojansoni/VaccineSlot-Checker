@@ -5,10 +5,10 @@ const HomeScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
-			<Button
+			{/* <Button
 				title="Go to details"
 				onPress={() => navigation.navigate("Details")}
-			/>
+			/> */}
 		</View>
 	);
 };
