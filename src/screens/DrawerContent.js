@@ -1,16 +1,7 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { View, StyleSheet } from "react-native";
-import {
-	Avatar,
-	Title,
-	Caption,
-	Paragraph,
-	Drawer,
-	Text,
-	TouchableRipple,
-	Switch,
-} from "react-native-paper";
+import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
@@ -52,7 +43,9 @@ export function DrawerContent(props) {
 								/>
 							)}
 							label="Profile"
-							onPress={() => {}}
+							onPress={() => {
+								props.navigation.navigate("ProfileScreen");
+							}}
 						/>
 						<DrawerItem
 							icon={(color, size = 24) => (
@@ -63,7 +56,22 @@ export function DrawerContent(props) {
 								/>
 							)}
 							label="Home"
-							onPress={() => {}}
+							onPress={() => {
+								props.navigation.navigate("Home");
+							}}
+						/>
+						<DrawerItem
+							icon={(color, size = 24) => (
+								<MaterialCommunityIcons
+									name="bell-outline"
+									color={color}
+									size={size}
+								/>
+							)}
+							label="Slot Updates"
+							onPress={() => {
+								props.navigation.navigate("Notifications");
+							}}
 						/>
 						<DrawerItem
 							icon={(color, size = 24) => (
@@ -74,7 +82,9 @@ export function DrawerContent(props) {
 								/>
 							)}
 							label="Help"
-							onPress={() => {}}
+							onPress={() => {
+								props.navigation.navigate("HelpScreen");
+							}}
 						/>
 						<DrawerItem
 							icon={(color, size = 24) => (
@@ -85,7 +95,9 @@ export function DrawerContent(props) {
 								/>
 							)}
 							label="About"
-							onPress={() => {}}
+							onPress={() => {
+								props.navigation.navigate("AboutScreen");
+							}}
 						/>
 					</Drawer.Section>
 				</View>
