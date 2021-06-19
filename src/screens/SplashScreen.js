@@ -8,8 +8,8 @@ import {
 	StatusBar,
 	Image,
 } from "react-native";
-//import * as Animatable from "react-native-animatable";
-//import LinearGradient from "react-native-linear-gradient";
+import * as Animatable from "react-native-animatable";
+import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
 
@@ -17,16 +17,39 @@ const SplashScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Image
+				<Animatable.Image
+					animation="bounceIn"
+					duration={1500}
 					source={require("../../assets/logo.png")}
 					styles={styles.logo}
 					resizeMode="stretch"
 				/>
 			</View>
-			<View style={styles.footer}>
-				<Text>Get updates of vaccines available near you!</Text>
-				<Text>SignIn with your account</Text>
-			</View>
+			<Animatable.View
+				style={styles.footer}
+				animation="fadeInUpBig"
+				duration={1500}
+			>
+				<Text style={styles.title}>
+					Get updates of vaccines available near you!
+				</Text>
+				<Text style={styles.text}>Sign in with account</Text>
+				<View style={styles.button}>
+					<TouchableOpacity onPress={() => navigation.navigate("SignInScreen")}>
+						<LinearGradient
+							colors={["#08d4c4", "#01ab9d"]}
+							style={styles.signIn}
+						>
+							<Text style={styles.textSign}>Get Started</Text>
+							<MaterialIcons
+								name="navigate-next"
+								color="#fff"
+								size={20}
+							></MaterialIcons>
+						</LinearGradient>
+					</TouchableOpacity>
+				</View>
+			</Animatable.View>
 		</View>
 	);
 };
@@ -58,7 +81,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: "#05375a",
-		fontSize: 30,
+		fontSize: 25,
 		fontWeight: "bold",
 	},
 	text: {
