@@ -4,8 +4,11 @@ import { View, StyleSheet } from "react-native";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { AuthContext } from "../components/context";
 
 export function DrawerContent(props) {
+	const { signOut } = React.useContext(AuthContext);
+
 	return (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView {...props}>
@@ -35,7 +38,7 @@ export function DrawerContent(props) {
 
 					<Drawer.Section style={styles.drawerSection}>
 						<DrawerItem
-							icon={(color, size = 24) => (
+							icon={(color = "#000", size = 24) => (
 								<MaterialCommunityIcons
 									name="account-outline"
 									color={color}
@@ -48,7 +51,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color, size = 24) => (
+							icon={(color = "#000", size = 24) => (
 								<MaterialCommunityIcons
 									name="home-outline"
 									color={color}
@@ -61,7 +64,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color, size = 24) => (
+							icon={(color = "#000", size = 24) => (
 								<MaterialCommunityIcons
 									name="bell-outline"
 									color={color}
@@ -74,7 +77,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color, size = 24) => (
+							icon={(color = "#000", size = 24) => (
 								<MaterialCommunityIcons
 									name="help-circle-outline"
 									color={color}
@@ -87,7 +90,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color, size = 24) => (
+							icon={(color = "#000", size = 24) => (
 								<MaterialCommunityIcons
 									name="cog-outline"
 									color={color}
@@ -104,7 +107,7 @@ export function DrawerContent(props) {
 			</DrawerContentScrollView>
 			<Drawer.Section style={styles.bottomDrawerSection}>
 				<DrawerItem
-					icon={(color, size = 24) => (
+					icon={(color = "#000", size = 24) => (
 						<MaterialCommunityIcons
 							name="exit-to-app"
 							color={color}
@@ -112,7 +115,9 @@ export function DrawerContent(props) {
 						/>
 					)}
 					label="Sign Out"
-					onPress={() => {}}
+					onPress={() => {
+						signOut();
+					}}
 				/>
 			</Drawer.Section>
 		</View>

@@ -90,6 +90,10 @@ const SignInScreen = ({ navigation }) => {
 		}
 	};
 
+	const loginHandle = (userEmail, password) => {
+		signIn(userEmail, password);
+	};
+
 	// const loginHandle = (userEmail, password) => {
 
 	//     const foundUser = Users.filter( item => {
@@ -180,11 +184,11 @@ const SignInScreen = ({ navigation }) => {
 
 				{/* FORGOT PASSWORD */}
 
-				<TouchableOpacity>
+				{/* <TouchableOpacity>
 					<Text style={{ color: "#009387", marginTop: 15 }}>
 						Forgot password?
 					</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 
 				{/* SIGN IN BUTTON */}
 
@@ -192,9 +196,10 @@ const SignInScreen = ({ navigation }) => {
 					<TouchableOpacity
 						style={styles.signIn}
 						onPress={() => {
-							signIn();
+							// 	signIn();
+							// }}
+							loginHandle(data.userEmail, data.password);
 						}}
-						// {loginHandle( data.username, data.password )}}
 					>
 						<LinearGradient
 							colors={["#08d4c4", "#01ab9d"]}
