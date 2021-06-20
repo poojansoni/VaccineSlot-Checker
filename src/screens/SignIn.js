@@ -18,8 +18,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
-import { useTheme } from "react-native-paper";
-
 const SignInScreen = ({ navigation }) => {
 	const [data, setData] = React.useState({
 		userEmail: "",
@@ -29,8 +27,6 @@ const SignInScreen = ({ navigation }) => {
 		isValidUser: true,
 		isValidPassword: true,
 	});
-
-	const { colors } = useTheme();
 	const { signIn } = React.useContext(AuthContext);
 
 	const textInputChange = (val) => {

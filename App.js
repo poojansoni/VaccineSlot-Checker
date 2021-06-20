@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from "react-native";
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "./src/components/context";
 import AuthStackScreen from "./src/screens/AuthStackScreen";
@@ -65,16 +66,26 @@ const App = () => {
 
 	const authContext = React.useMemo(
 		() => ({
-			signIn: (userEmail, password) => {
+			signIn: async (userEmail, password) => {
 				let userToken = null;
 				if (userEmail == "email@gmail.com" && password == "password") {
-					userToken = "abcdefgh";
+					try {
+						userToken = "abcdefgh";
+						await AsyncStorage.setItem("userToken", userToken);
+					} catch (e) {
+						console.log(e);
+					}
 				}
 				dispatch({ type: "LOGIN", id: userEmail, token: userToken });
 				// setUserToken("ugauv");
 				// setIsLoading(false);
 			},
-			signOut: () => {
+			signOut: async () => {
+				try {
+					await AsyncStorage.removeItem("userToken");
+				} catch (e) {
+					console.log(e);
+				}
 				dispatch({ type: "LOGOUT" });
 				// setUserToken(null);
 				// setIsLoading(false);
@@ -87,27 +98,22 @@ const App = () => {
 		[],
 	);
 
-	useEffect(
-		//setTimeout(async() => {
-		() => {
-			setTimeout(() => {
-				dispatch({ type: "RETRIEVE_TOKEN", token: "abcdefgh" });
-				//setIsLoading(false);
-				// let userToken;
-				// userToken = null;
-				// try {
-				//   userToken = await AsyncStorage.getItem('userToken');
-				// } catch(e) {
-				//   console.log(e);
-				//}
-				// // console.log('user token: ', userToken);
-				// dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
-			}, 1000);
-		},
-		[],
-	);
+	useEffect(() => {
+		setTimeout(async () => {
+			//setIsLoading(false);
+			let userToken;
+			userToken = null;
+			try {
+				userToken = await AsyncStorage.getItem("userToken");
+			} catch (e) {
+				console.log(e);
+			}
 
-	if (loginState.isLoading) {
+			dispatch({ type: "RETRIEVE_TOKEN", token: userToken });
+		}, 1000);
+	}, []);
+
+	if (loginState.isLoading && loginState.userToken == null) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 				<ActivityIndicator
