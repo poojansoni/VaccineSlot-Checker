@@ -5,6 +5,10 @@ const HomeScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
+			{/* <Text>Android id: {Application.androidId}</Text>
+			<Text>application id: {Application.applicationId}</Text>
+			<Text>apllication name: {Application.applicationName}</Text> */}
+
 			{/* <Button
 				title="Go to details"
 				onPress={() => navigation.navigate("Details")}

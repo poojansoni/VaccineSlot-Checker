@@ -2,6 +2,8 @@ import React, { useReducer } from "react";
 import * as ActionTypes from "./ActionTypes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import Firebase from "../api/firebase/firebase";
+
 const AuthContext = React.createContext();
 
 const authReducer = (state, action) => {
@@ -72,12 +74,18 @@ export const AuthProvider = ({ children }) => {
 		console.log("INSIDE SIGN UP email & PAss :", email, password);
 		dispatch({ type: ActionTypes.IS_AUTHENTICATING });
 		try {
-			// const response = await trackApi.post("/signup", { email, password });response.data.token
-			const token = "HELLO_FROM_THE_OTHER_SIDE";
-			await AsyncStorage.setItem("token", token);
+			const response = await Firebase.auth().createUserWithEmailAndPassword(
+				email,
+				password,
+			);
+			await AsyncStorage.setItem("token", response.user.uid);
+			await AsyncStorage.setItem("userEmail", response.user.email);
 			dispatch({
 				type: ActionTypes.SIGN_UP,
-				payload: { token: token, userId: email },
+				payload: {
+					token: response.user.uid,
+					userId: response.user.email,
+				},
 			});
 		} catch (error) {
 			console.log("ERROR IN SIGNUP:", error);
@@ -91,12 +99,18 @@ export const AuthProvider = ({ children }) => {
 
 		dispatch({ type: ActionTypes.IS_AUTHENTICATING });
 		try {
-			//const response = await trackApi.post("/signup", { email, password });response.data.token
-			const token = "HELLO_FROM_THE_OTHER_SIDE";
-			await AsyncStorage.setItem("token", token);
+			const response = await Firebase.auth().signInWithEmailAndPassword(
+				email,
+				password,
+			);
+			await AsyncStorage.setItem("token", response.user.uid);
+			await AsyncStorage.setItem("userEmail", response.user.email);
 			dispatch({
 				type: ActionTypes.SIGN_IN,
-				payload: { token: token, userId: email },
+				payload: {
+					token: response.user.uid,
+					userId: response.user.email,
+				},
 			});
 		} catch (error) {
 			console.log("ERROR IN SIGNIN:", error);
@@ -110,7 +124,8 @@ export const AuthProvider = ({ children }) => {
 		dispatch({ type: ActionTypes.SIGN_OUT });
 		try {
 			await AsyncStorage.removeItem("token");
-			//const response = await trackApi.post("/signup", { email, password });response.data.token
+			await AsyncStorage.removeItem("userEmail");
+			await Firebase.auth().signOut();
 		} catch (error) {
 			console.log("ERROR IN SIGNOUT:", error);
 
