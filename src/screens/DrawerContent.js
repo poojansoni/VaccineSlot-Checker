@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { AuthContext } from "../components/context";
+import AuthContext from "../components/authContext";
 
 export function DrawerContent(props) {
-	const { signOut } = React.useContext(AuthContext);
-
+	const signOutHandler = () => {
+		try {
+			signOut();
+			//props.navigation.navigate("SplashScreen");
+		} catch (error) {
+			Alert.alert("Error", "Something went wrong!", [{ text: "Okay" }]);
+			return;
+		}
+	};
+	const { signOut } = useContext(AuthContext);
 	return (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView {...props}>
@@ -38,11 +46,11 @@ export function DrawerContent(props) {
 
 					<Drawer.Section style={styles.drawerSection}>
 						<DrawerItem
-							icon={(color = "#000", size = 24) => (
+							icon={() => (
 								<MaterialCommunityIcons
 									name="account-outline"
-									color={color}
-									size={size}
+									fontSize={24}
+									size={24}
 								/>
 							)}
 							label="Profile"
@@ -51,11 +59,11 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color = "#000", size = 24) => (
+							icon={() => (
 								<MaterialCommunityIcons
 									name="home-outline"
-									color={color}
-									size={size}
+									fontSize={24}
+									size={24}
 								/>
 							)}
 							label="Home"
@@ -64,11 +72,11 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color = "#000", size = 24) => (
+							icon={() => (
 								<MaterialCommunityIcons
 									name="bell-outline"
-									color={color}
-									size={size}
+									fontSize={24}
+									size={24}
 								/>
 							)}
 							label="Slot Updates"
@@ -77,11 +85,11 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color = "#000", size = 24) => (
+							icon={() => (
 								<MaterialCommunityIcons
 									name="help-circle-outline"
-									color={color}
-									size={size}
+									fontSize={24}
+									size={24}
 								/>
 							)}
 							label="Help"
@@ -90,11 +98,11 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
-							icon={(color = "#000", size = 24) => (
+							icon={() => (
 								<MaterialCommunityIcons
 									name="cog-outline"
-									color={color}
-									size={size}
+									fontSize={24}
+									size={24}
 								/>
 							)}
 							label="About"
@@ -107,16 +115,16 @@ export function DrawerContent(props) {
 			</DrawerContentScrollView>
 			<Drawer.Section style={styles.bottomDrawerSection}>
 				<DrawerItem
-					icon={(color = "#000", size = 24) => (
+					icon={() => (
 						<MaterialCommunityIcons
 							name="exit-to-app"
-							color={color}
-							size={size}
+							fontSize={24}
+							size={24}
 						/>
 					)}
 					label="Sign Out"
 					onPress={() => {
-						signOut();
+						signOutHandler();
 					}}
 				/>
 			</Drawer.Section>
