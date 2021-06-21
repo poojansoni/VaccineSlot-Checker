@@ -33,7 +33,6 @@ const SignInScreen = ({ navigation }) => {
 				...data,
 				userEmail: val,
 				checkTextInputChange: true,
-				isValidUser: true,
 			});
 		} else {
 			setData({

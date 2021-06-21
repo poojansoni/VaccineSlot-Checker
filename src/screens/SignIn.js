@@ -11,7 +11,7 @@ import {
 	TextInputBase,
 } from "react-native";
 
-import { AuthContext } from "../components/context";
+import AuthContext from "../components/authContext";
 
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
@@ -19,6 +19,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 const SignInScreen = ({ navigation }) => {
+	console.log("SIGN IN SCREEN RERENDERED");
 	const [data, setData] = React.useState({
 		userEmail: "",
 		password: "",
@@ -87,30 +88,27 @@ const SignInScreen = ({ navigation }) => {
 	};
 
 	const loginHandle = (userEmail, password) => {
-		signIn(userEmail, password);
+		if (data.userEmail.length == 0 || data.password.length == 0) {
+			Alert.alert("Empty Input!", "Email or password field cannot be empty.", [
+				{ text: "Okay" },
+			]);
+			return;
+		}
+		if (!data.isValidPassword || !data.isValidUser) {
+			Alert.alert("Invalid User!", "Email or password is incorrect.", [
+				{ text: "Okay" },
+			]);
+			return;
+		}
+		try {
+			signIn(userEmail, password);
+		} catch (error) {
+			Alert.alert("Invalid User!", "Email or password is incorrect.", [
+				{ text: "Okay" },
+			]);
+			return;
+		}
 	};
-
-	// const loginHandle = (userEmail, password) => {
-
-	//     const foundUser = Users.filter( item => {
-	//         return userEmail == item.userEmail && password == item.password;
-	//     } );
-
-	//     if ( data.userEmail.length == 0 || data.password.length == 0 ) {
-	//         Alert.alert('Wrong Input!', 'Email or password field cannot be empty.', [
-	//             {text: 'Okay'}
-	//         ]);
-	//         return;
-	//     }
-
-	//     if ( foundUser.length == 0 ) {
-	//         Alert.alert('Invalid User!', 'Email or password is incorrect.', [
-	//             {text: 'Okay'}
-	//         ]);
-	//         return;
-	//     }
-	//     signIn(foundUser);
-	// }
 
 	return (
 		<View style={styles.container}>
