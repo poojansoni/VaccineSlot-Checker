@@ -25,6 +25,7 @@ const App = () => {
 		isLoading: true,
 		userEmail: null,
 		userToken: null,
+		userPass: "",
 	};
 
 	const loginReducer = (prevState, action) => {
@@ -40,6 +41,7 @@ const App = () => {
 					...prevState,
 					userEmail: action.id,
 					userToken: action.token,
+					userPass: action.password,
 					isLoading: false,
 				};
 			case "LOGOUT":
@@ -47,6 +49,7 @@ const App = () => {
 					...prevState,
 					userEmail: null,
 					userToken: null,
+					userPass: null,
 					isLoading: false,
 				};
 			case "REGISTER":
@@ -54,6 +57,7 @@ const App = () => {
 					...prevState,
 					userEmail: action.id,
 					userToken: action.token,
+					userPass: action.password,
 					isLoading: false,
 				};
 		}
@@ -72,6 +76,7 @@ const App = () => {
 					try {
 						userToken = "abcdefgh";
 						await AsyncStorage.setItem("userToken", userToken);
+						await AsyncStorage.setItem("userEmail", userEmail);
 					} catch (e) {
 						console.log(e);
 					}
@@ -83,6 +88,7 @@ const App = () => {
 			signOut: async () => {
 				try {
 					await AsyncStorage.removeItem("userToken");
+					await AsyncStorage.removeItem("userEmail", userEmail);
 				} catch (e) {
 					console.log(e);
 				}
@@ -90,9 +96,20 @@ const App = () => {
 				// setUserToken(null);
 				// setIsLoading(false);
 			},
-			signUp: () => {
-				setUserToken("ugauv");
-				setIsLoading(false);
+			signUp: async (userEmail, password) => {
+				password = password;
+
+				try {
+					userToken = "abcdefgh";
+					await AsyncStorage.setItem("userToken", userToken);
+					await AsyncStorage.setItem("userEmail", userEmail);
+				} catch (e) {
+					console.log(e);
+				}
+
+				dispatch({ type: "LOGIN", id: userEmail, token: userToken });
+				// setUserToken("ugauv");
+				// setIsLoading(false);
 			},
 		}),
 		[],
