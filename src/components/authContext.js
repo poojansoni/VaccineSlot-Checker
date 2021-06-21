@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signUp = async (email, password) => {
-		// console.log("INSIDE SIGN UP email & PAss :", email, password);
+		console.log("INSIDE SIGN UP email & PAss :", email, password);
 		dispatch({ type: ActionTypes.IS_AUTHENTICATING });
 		try {
 			// const response = await trackApi.post("/signup", { email, password });response.data.token

@@ -8,7 +8,6 @@ import {
 	StyleSheet,
 	StatusBar,
 	Alert,
-	TextInputBase,
 } from "react-native";
 
 import AuthContext from "../components/authContext";
@@ -19,7 +18,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 const SignInScreen = ({ navigation }) => {
-	console.log("SIGN IN SCREEN RERENDERED");
+	//console.log("SIGN IN SCREEN RERENDERED");
 	const [data, setData] = React.useState({
 		userEmail: "",
 		password: "",
@@ -87,7 +86,7 @@ const SignInScreen = ({ navigation }) => {
 		}
 	};
 
-	const loginHandle = (userEmail, password) => {
+	const loginHandle = () => {
 		if (data.userEmail.length == 0 || data.password.length == 0) {
 			Alert.alert("Empty Input!", "Email or password field cannot be empty.", [
 				{ text: "Okay" },
@@ -101,7 +100,7 @@ const SignInScreen = ({ navigation }) => {
 			return;
 		}
 		try {
-			signIn(userEmail, password);
+			signIn(data.userEmail, data.password);
 		} catch (error) {
 			Alert.alert("Invalid User!", "Email or password is incorrect.", [
 				{ text: "Okay" },
@@ -132,10 +131,11 @@ const SignInScreen = ({ navigation }) => {
 						placeholder="email@gmail.com"
 						style={styles.textInput}
 						autoCapitalize="none"
+						autoCorrect={false}
 						onChangeText={(val) => textInputChange(val)}
 						onEndEditing={(e) => handleValidUserEmail(e.nativeEvent.text)}
 					/>
-					{data.isValidUser ? (
+					{data.isValidUser && data.checkTextInputChange ? (
 						<Animatable.View animation="bounceIn">
 							<Feather name="check-circle" color="green" size={20} />
 						</Animatable.View>
@@ -157,6 +157,7 @@ const SignInScreen = ({ navigation }) => {
 						secureTextEntry={data.secureTextEntry}
 						style={styles.textInput}
 						autoCapitalize="none"
+						autoCorrect={false}
 						onChangeText={(val) => handlePasswordChange(val)}
 					/>
 					<TouchableOpacity onPress={() => updateSecureTextEntry()}>
@@ -192,7 +193,7 @@ const SignInScreen = ({ navigation }) => {
 						onPress={() => {
 							// 	signIn();
 							// }}
-							loginHandle(data.userEmail, data.password);
+							loginHandle();
 						}}
 					>
 						<LinearGradient

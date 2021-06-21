@@ -10,6 +10,7 @@ import {
 	Alert,
 	TextInputBase,
 } from "react-native";
+import AuthContext from "../components/authContext";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -25,7 +26,10 @@ const SignInScreen = ({ navigation }) => {
 		confirmSecureTextEntry: true,
 		isValidUser: true,
 		isValidPassword: true,
+		isValidConfirmPassword: true,
 	});
+
+	const { signUp } = React.useContext(AuthContext);
 
 	const textInputChange = (val) => {
 		if (val.trim().length >= 4) {
@@ -61,17 +65,17 @@ const SignInScreen = ({ navigation }) => {
 	};
 
 	const handleConfirmPasswordChange = (val) => {
-		if (data.password == val) {
+		if (val.trim().length >= 8 && data.password == val) {
 			setData({
 				...data,
 				confirmPassword: val,
-				isValidPassword: true,
+				isValidConfirmPassword: true,
 			});
 		} else {
 			setData({
 				...data,
 				confirmPassword: val,
-				isValidPassword: false,
+				isValidConfirmPassword: false,
 			});
 		}
 	};
@@ -88,6 +92,52 @@ const SignInScreen = ({ navigation }) => {
 			...data,
 			confirmSecureTextEntry: !data.confirmSecureTextEntry,
 		});
+	};
+
+	const handleValidUserEmail = (val) => {
+		var validRegex =
+			/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+		if (val.trim().length >= 6 && val.match(validRegex)) {
+			setData({
+				...data,
+				isValidUser: true,
+			});
+		} else {
+			setData({
+				...data,
+				isValidUser: false,
+				checkTextInputChange: false,
+			});
+		}
+	};
+
+	const signUpHandler = () => {
+		if (
+			data.userEmail.length == 0 ||
+			data.password.length == 0 ||
+			data.confirmPassword.length == 0
+		) {
+			Alert.alert(
+				"Empty Input!",
+				"Email or password/Confirm password field cannot be empty.",
+				[{ text: "Okay" }],
+			);
+			return;
+		}
+		if (!data.isValidPassword || !data.isValidUser) {
+			Alert.alert("Invalid User!", "Email or password format incorrect.", [
+				{ text: "Okay" },
+			]);
+			return;
+		}
+		try {
+			signUp(data.userEmail, data.password);
+		} catch (error) {
+			Alert.alert("Invalid User!", "Email or password is incorrect.", [
+				{ text: "Okay" },
+			]);
+			return;
+		}
 	};
 
 	return (
@@ -112,16 +162,22 @@ const SignInScreen = ({ navigation }) => {
 						placeholder="email@gmail.com"
 						style={styles.textInput}
 						autoCapitalize="none"
+						autoCorrect={false}
 						onChangeText={(val) => textInputChange(val)}
+						onEndEditing={(e) => handleValidUserEmail(e.nativeEvent.text)}
 					/>
-					{data.checkTextInputChange ? (
+					{data.isValidUser && data.checkTextInputChange ? (
 						<Animatable.View animation="bounceIn">
 							<Feather name="check-circle" color="green" size={20} />
 						</Animatable.View>
 					) : null}
 				</View>
-
-				{/* PASSORD INPUT */}
+				{data.isValidUser ? null : (
+					<Animatable.View animation="fadeInLeft" duration={500}>
+						<Text style={styles.errorMsg}>Invalid Email</Text>
+					</Animatable.View>
+				)}
+				{/* PASSWORD INPUT */}
 
 				<Text style={[styles.text_footer, { marginTop: 35 }]}>Password</Text>
 				<View style={styles.action}>
@@ -131,6 +187,7 @@ const SignInScreen = ({ navigation }) => {
 						secureTextEntry={data.secureTextEntry}
 						style={styles.textInput}
 						autoCapitalize="none"
+						autoCorrect={false}
 						onChangeText={(val) => handlePasswordChange(val)}
 					/>
 					<TouchableOpacity onPress={() => updateSecureTextEntry()}>
@@ -141,7 +198,13 @@ const SignInScreen = ({ navigation }) => {
 						)}
 					</TouchableOpacity>
 				</View>
-
+				{data.isValidPassword ? null : (
+					<Animatable.View animation="fadeInLeft" duration={500}>
+						<Text style={styles.errorMsg}>
+							Password must be 8 characters long.
+						</Text>
+					</Animatable.View>
+				)}
 				{/* CONFIRM PASSWORD */}
 
 				<Text style={[styles.text_footer, { marginTop: 35 }]}>
@@ -154,6 +217,7 @@ const SignInScreen = ({ navigation }) => {
 						secureTextEntry={data.confirmSecureTextEntry}
 						style={styles.textInput}
 						autoCapitalize="none"
+						autoCorrect={false}
 						onChangeText={(val) => handleConfirmPasswordChange(val)}
 					/>
 					<TouchableOpacity onPress={() => updateConfirmSecureTextEntry()}>
@@ -165,12 +229,31 @@ const SignInScreen = ({ navigation }) => {
 					</TouchableOpacity>
 				</View>
 
+				{data.confirmPassword.trim().length <
+				8 ? null : data.isValidConfirmPassword ? null : (
+					<Animatable.View animation="fadeInLeft" duration={500}>
+						<Text style={styles.errorMsg}>Password does not match!</Text>
+					</Animatable.View>
+				)}
+
 				{/* SIGN UP BUTTON */}
 
 				<View style={styles.button}>
-					<LinearGradient colors={["#08d4c4", "#01ab9d"]} style={styles.signIn}>
-						<Text style={[styles.textSign, { color: "#fff" }]}>Sign Up</Text>
-					</LinearGradient>
+					<TouchableOpacity
+						style={styles.signIn}
+						onPress={() => {
+							// 	signIn();
+							// }}
+							signUpHandler();
+						}}
+					>
+						<LinearGradient
+							colors={["#08d4c4", "#01ab9d"]}
+							style={styles.signIn}
+						>
+							<Text style={[styles.textSign, { color: "#fff" }]}>Sign Up</Text>
+						</LinearGradient>
+					</TouchableOpacity>
 
 					{/* SIGN In BUTTON */}
 
