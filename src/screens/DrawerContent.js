@@ -7,8 +7,11 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import AuthContext from "../components/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export function DrawerContent(props) {
+	const profile =
+		"https://www.pinclipart.com/picdir/middle/38-388919_computer-icons-user-profile-clip-art-avatar-user.png";
 	const [data, setData] = React.useState({
-		userEmail: "",
+		userEmail: "Your Name",
+		userDp: profile,
 	});
 
 	const setEmail = async () => {
@@ -20,19 +23,44 @@ export function DrawerContent(props) {
 					...data,
 					userEmail: email,
 				});
-			} else throw new Error();
-			//console.log(email);
+			} else {
+				setData({
+					...data,
+					userEmail: "Your Name",
+				});
+			}
+			console.log("EMAIL ", data.userEmail);
 		} catch (error) {
-			//console.log("Something went wrong : ", error);
-			setData({
-				...data,
-				userEmail: "Your Name",
-			});
+			console.log("Something went wrong : ", error);
 		}
+	};
+	// const setDP = async () => {
+	// 	let dp = null;
+	// 	try {
+	// 		dp = await AsyncStorage.getItem("DP");
+	// 		if (dp) {
+	// 			setData({
+	// 				...data,
+	// 				userDp: dp,
+	// 			});
+	// 		} else {
+	// 			setData({
+	// 				...data,
+	// 				userDp: profile,
+	// 			});
+	// 		}
+	// 		console.log("DP ", data.userDp);
+	// 	} catch (error) {
+	// 		console.log("Something went wrong : ", error);
+	// 	}
+	// };
+	const setUserProfile = async () => {
+		setEmail();
+		//setDP();
 	};
 
 	useEffect(() => {
-		setEmail();
+		setUserProfile();
 	}, []);
 
 	const signOutHandler = () => {
@@ -54,7 +82,7 @@ export function DrawerContent(props) {
 						>
 							<Avatar.Image
 								source={{
-									uri: "https://www.pinclipart.com/picdir/middle/38-388919_computer-icons-user-profile-clip-art-avatar-user.png",
+									uri: data.userDp,
 								}}
 								size={90}
 							/>

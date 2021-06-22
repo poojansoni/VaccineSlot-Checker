@@ -45,10 +45,13 @@ export const AuthProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(authReducer, {
 		userId: "",
 		token: null,
-		//errorMessage: "",
 		isAuthenticating: false,
 		triedLocalSignIn: false,
 	});
+
+	const [currentUser, setCurrentUser] = React.useState();
+
+	const [data, setData] = React.useState();
 
 	console.log("OUR STATE:", authState);
 
@@ -60,7 +63,9 @@ export const AuthProvider = ({ children }) => {
 				dispatch({ type: ActionTypes.TRIED_LOCAL_SIGNIN });
 				return;
 			}
-
+			// try {
+			// 	getProfilePic();
+			// } catch (err) {}
 			dispatch({
 				type: ActionTypes.SIGN_IN,
 				payload: { token, userId },
@@ -81,6 +86,9 @@ export const AuthProvider = ({ children }) => {
 			);
 			await AsyncStorage.setItem("token", response.user.uid);
 			await AsyncStorage.setItem("userEmail", response.user.email);
+			// try {
+			// 	getProfilePic();
+			// } catch (err) {}
 			dispatch({
 				type: ActionTypes.SIGN_UP,
 				payload: {
@@ -106,6 +114,9 @@ export const AuthProvider = ({ children }) => {
 			);
 			await AsyncStorage.setItem("token", response.user.uid);
 			await AsyncStorage.setItem("userEmail", response.user.email);
+			// try {
+			// 	getProfilePic();
+			// } catch (err) {}
 			dispatch({
 				type: ActionTypes.SIGN_IN,
 				payload: {
@@ -126,6 +137,7 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await AsyncStorage.removeItem("token");
 			await AsyncStorage.removeItem("userEmail");
+			//await AsyncStorage.removeItem("DP");
 			await Firebase.auth().signOut();
 		} catch (error) {
 			console.log("ERROR IN SIGNOUT:", error);
@@ -134,9 +146,34 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	// const getProfilePic = async () => {
+	// 	console.log("INSIDE PROFILE SAVE ");
+	// 	Firebase.auth().onAuthStateChanged((user) => {
+	// 		setCurrentUser(user);
+	// 	});
+	// 	try {
+	// 		const url = currentUser.photoURL;
+	// 		if (url) {
+	// 			await AsyncStorage.setItem("DP", url);
+	// 		} else {
+	// 			throw new Error("DP DOES NOT EXISTS");
+	// 		}
+	// 	} catch (error) {
+	// 		console.log("ERROR IN GETTING DP:", error);
+
+	// 		throw new Error("Something went wrong");
+	// 	}
+	// };
+
 	return (
 		<AuthContext.Provider
-			value={{ data: authState, tryLocalSignIn, signUp, signIn, signOut }}
+			value={{
+				data: authState,
+				tryLocalSignIn,
+				signUp,
+				signIn,
+				signOut,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

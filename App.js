@@ -9,8 +9,11 @@ import AuthContext from "./src/components/authContext";
 import AuthStackScreen from "./src/screens/AuthStackScreen";
 
 import MainTabScreen from "./src/screens/MainTabScreen";
-import HelpScreen from "./src/screens/HelpScreen";
-import AboutScreen from "./src/screens/AboutScreen";
+
+import {
+	AboutStackScreen,
+	HelpStackScreen,
+} from "./src/screens/drawerStackScreen";
 import AuthResolveScreen from "./src/screens/AuthResolveScreen";
 
 import { DrawerContent } from "./src/screens/DrawerContent";
@@ -30,8 +33,8 @@ const AppNavigator = () => {
 					drawerContent={(props) => <DrawerContent {...props} />}
 				>
 					<Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
-					<Drawer.Screen name="HelpScreen" component={HelpScreen} />
-					<Drawer.Screen name="AboutScreen" component={AboutScreen} />
+					<Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
+					<Drawer.Screen name="AboutScreen" component={AboutStackScreen} />
 				</Drawer.Navigator>
 			)}
 			{!token && triedLocalSignIn && <AuthStackScreen />}
