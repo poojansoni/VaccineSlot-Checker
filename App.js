@@ -9,7 +9,6 @@ import AuthContext from "./src/components/authContext";
 import AuthStackScreen from "./src/screens/AuthStackScreen";
 
 import MainTabScreen from "./src/screens/MainTabScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
 import HelpScreen from "./src/screens/HelpScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import AuthResolveScreen from "./src/screens/AuthResolveScreen";
@@ -31,7 +30,6 @@ const AppNavigator = () => {
 					drawerContent={(props) => <DrawerContent {...props} />}
 				>
 					<Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
-					<Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
 					<Drawer.Screen name="HelpScreen" component={HelpScreen} />
 					<Drawer.Screen name="AboutScreen" component={AboutScreen} />
 				</Drawer.Navigator>

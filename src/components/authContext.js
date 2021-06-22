@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }) => {
 	const tryLocalSignIn = async () => {
 		try {
 			const token = await AsyncStorage.getItem("token");
+			const userId = await AsyncStorage.getItem("userEmail");
 			if (!token) {
 				dispatch({ type: ActionTypes.TRIED_LOCAL_SIGNIN });
 				return;
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 
 			dispatch({
 				type: ActionTypes.SIGN_IN,
-				payload: { token, userId: "RISHABH KING" },
+				payload: { token, userId },
 			});
 		} catch (error) {
 			console.log("COULD NOT READ ASYNCSTORAGE:", error);

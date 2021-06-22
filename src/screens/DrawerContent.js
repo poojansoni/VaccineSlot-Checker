@@ -1,16 +1,43 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { View, StyleSheet, Alert } from "react-native";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import AuthContext from "../components/authContext";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export function DrawerContent(props) {
+	const [data, setData] = React.useState({
+		userEmail: "",
+	});
+
+	const setEmail = async () => {
+		let email = null;
+		try {
+			email = await AsyncStorage.getItem("userEmail");
+			if (email) {
+				setData({
+					...data,
+					userEmail: email,
+				});
+			} else throw new Error();
+			//console.log(email);
+		} catch (error) {
+			//console.log("Something went wrong : ", error);
+			setData({
+				...data,
+				userEmail: "Your Name",
+			});
+		}
+	};
+
+	useEffect(() => {
+		setEmail();
+	}, []);
+
 	const signOutHandler = () => {
 		try {
 			signOut();
-			//props.navigation.navigate("SplashScreen");
 		} catch (error) {
 			Alert.alert("Error", "Something went wrong!", [{ text: "Okay" }]);
 			return;
@@ -39,25 +66,12 @@ export function DrawerContent(props) {
 								marginBottom: 20,
 							}}
 						>
-							<Title style={styles.title}>User Name</Title>
+							<Title style={styles.title}>{data.userEmail}</Title>
 							<Caption style={styles.caption}>Be Safe and Vaccinate!</Caption>
 						</View>
 					</View>
 
 					<Drawer.Section style={styles.drawerSection}>
-						<DrawerItem
-							icon={() => (
-								<MaterialCommunityIcons
-									name="account-outline"
-									fontSize={24}
-									size={24}
-								/>
-							)}
-							label="Profile"
-							onPress={() => {
-								props.navigation.navigate("ProfileScreen");
-							}}
-						/>
 						<DrawerItem
 							icon={() => (
 								<MaterialCommunityIcons
