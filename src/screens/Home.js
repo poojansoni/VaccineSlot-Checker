@@ -1,21 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-
-const PincodeScreen = () => {
-	return (
-		<View>
-			<Text>Pincode Screen</Text>
-		</View>
-	);
-};
-
-const DistrictScreen = () => {
-	return (
-		<View>
-			<Text>District Screen</Text>
-		</View>
-	);
-};
+import DistrictScreen from "./HomeMainAreaScreen/districtScreen";
+import PincodeScreen from "./HomeMainAreaScreen/pincodeScreen";
 
 const HomeScreen = ({ navigation }) => {
 	const [data, setData] = React.useState({
@@ -73,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.main}>
-				{!data.activeBtn ? PincodeScreen() : DistrictScreen()}
+				{!data.activeBtn ? <PincodeScreen /> : <DistrictScreen />}
 			</View>
 		</View>
 	);
