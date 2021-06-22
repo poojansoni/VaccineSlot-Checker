@@ -49,9 +49,9 @@ export const AuthProvider = ({ children }) => {
 		triedLocalSignIn: false,
 	});
 
-	const [currentUser, setCurrentUser] = React.useState();
+	// const [currentUser, setCurrentUser] = React.useState();
 
-	const [data, setData] = React.useState();
+	// const [data, setData] = React.useState();
 
 	console.log("OUR STATE:", authState);
 

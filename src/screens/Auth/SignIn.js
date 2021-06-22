@@ -10,7 +10,7 @@ import {
 	Alert,
 } from "react-native";
 
-import AuthContext from "../components/authContext";
+import AuthContext from "../../components/authContext";
 
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";

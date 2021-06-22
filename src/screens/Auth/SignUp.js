@@ -8,9 +8,8 @@ import {
 	StyleSheet,
 	StatusBar,
 	Alert,
-	TextInputBase,
 } from "react-native";
-import AuthContext from "../components/authContext";
+import AuthContext from "../../components/authContext";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";

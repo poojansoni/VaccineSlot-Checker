@@ -4,7 +4,7 @@ import { View, StyleSheet, Alert } from "react-native";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import AuthContext from "../components/authContext";
+import AuthContext from "../../components/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export function DrawerContent(props) {
 	const profile =

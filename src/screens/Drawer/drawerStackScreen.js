@@ -1,5 +1,5 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import AboutScreen from "./AboutScreen";
 import HelpScreen from "./HelpScreen";

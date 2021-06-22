@@ -6,17 +6,17 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { AuthProvider } from "./src/components/authContext";
 import AuthContext from "./src/components/authContext";
-import AuthStackScreen from "./src/screens/AuthStackScreen";
+import AuthStackScreen from "./src/screens/Auth/AuthStackScreen";
 
 import MainTabScreen from "./src/screens/MainTabScreen";
 
 import {
 	AboutStackScreen,
 	HelpStackScreen,
-} from "./src/screens/drawerStackScreen";
+} from "./src/screens/Drawer/drawerStackScreen";
 import AuthResolveScreen from "./src/screens/AuthResolveScreen";
 
-import { DrawerContent } from "./src/screens/DrawerContent";
+import { DrawerContent } from "./src/screens/Drawer/DrawerContent";
 
 const Drawer = createDrawerNavigator();
 

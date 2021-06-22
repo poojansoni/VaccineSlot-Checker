@@ -1,29 +1,130 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
+const PincodeScreen = () => {
+	return (
+		<View>
+			<Text>Pincode Screen</Text>
+		</View>
+	);
+};
+
+const DistrictScreen = () => {
+	return (
+		<View>
+			<Text>District Screen</Text>
+		</View>
+	);
+};
 
 const HomeScreen = ({ navigation }) => {
-	return (
-		<View style={styles.container}>
-			<Text>Home Screen</Text>
-			{/* <Text>Android id: {Application.androidId}</Text>
-			<Text>application id: {Application.applicationId}</Text>
-			<Text>apllication name: {Application.applicationName}</Text> */}
+	const [data, setData] = React.useState({
+		activeBtn: 0,
+	});
 
-			{/* <Button
-				title="Go to details"
-				onPress={() => navigation.navigate("Details")}
-			/> */}
+	const setActiveBtn = () => {
+		if (data.activeBtn === 0) {
+			setData({
+				...data,
+				activeBtn: 1,
+			});
+		} else {
+			setData({
+				...data,
+				activeBtn: 0,
+			});
+		}
+		console.log("ACTIVE BUTTON VALUE : ", data.activeBtn);
+	};
+	return (
+		<View style={styles.selector}>
+			<View style={styles.option}>
+				{/* 0 state defined for pincode */}
+
+				<TouchableOpacity
+					onPress={() => {
+						if (data.activeBtn) {
+							setActiveBtn();
+						}
+					}}
+					style={styles.btn}
+				>
+					<Text
+						style={!data.activeBtn ? styles.textActive : styles.textInactive}
+					>
+						By Pincode
+					</Text>
+
+					{/* 1 state defined for District */}
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						if (!data.activeBtn) {
+							setActiveBtn();
+						}
+					}}
+					style={styles.btn}
+				>
+					<Text
+						style={data.activeBtn ? styles.textActive : styles.textInactive}
+					>
+						By District
+					</Text>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.main}>
+				{!data.activeBtn ? PincodeScreen() : DistrictScreen()}
+			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
+	selector: {
 		flex: 1,
 		backgroundColor: "#fff",
-		alignItems: "center",
-		alignContent: "center",
 		justifyContent: "center",
+		// borderColor: "red",
+		// borderWidth: 5,
+	},
+	option: {
+		flex: 1,
+		flexDirection: "row",
+		backgroundColor: "#fff",
+		padding: 10,
+		justifyContent: "center",
+		alignItems: "center",
+		// borderColor: "red",
+		// borderWidth: 5,
+	},
+	main: {
+		flex: 5,
+		backgroundColor: "#fff",
+		padding: 10,
+		justifyContent: "center",
+		borderColor: "red",
+		borderWidth: 5,
+	},
+	btn: {
+		borderColor: "#08998d",
+		backgroundColor: "#08d4c4",
+		borderWidth: 2,
+		marginTop: 15,
+		width: "42%",
+		height: 50,
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 50,
+	},
+	textActive: {
+		color: "#fff",
+		fontSize: 18,
+		fontWeight: "bold",
+	},
+	textInactive: {
+		color: "#08998d",
+		fontSize: 18,
+		fontWeight: "bold",
 	},
 });
 
