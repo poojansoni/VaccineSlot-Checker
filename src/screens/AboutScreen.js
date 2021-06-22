@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const AboutScreen = ({ navigation }) => {
 	return (
@@ -9,6 +9,8 @@ const AboutScreen = ({ navigation }) => {
 				Vaccine slots available according to your prefernce. Please go to Help
 				Page to know how to use App.
 			</Text>
+			<Image source={require("../../assets/logo.png")} style={{ margin: 40 }} />
+			<Text>Created by: Poojan Soni, slot-checker v1.0.0</Text>
 		</View>
 	);
 };
