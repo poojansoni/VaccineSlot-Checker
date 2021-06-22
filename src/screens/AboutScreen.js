@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-
+import { TouchableOpacity } from "react-native-gesture-handler";
 const AboutScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<Text>About Screen</Text>
-			{/* <Button
-				title="Go to details"
-				onPress={() => navigation.navigate("Details")}
-			/> */}
+			<Text>
+				This Application's sole purpose is to keep you in track with upcoming
+				Vaccine slots available according to your prefernce. Please go to Help
+				Page to know how to use App.
+			</Text>
 		</View>
 	);
 };
@@ -18,8 +18,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#fff",
 		alignItems: "center",
-		alignContent: "center",
 		justifyContent: "center",
+		padding: 50,
+		fontSize: 10000,
 	},
 });
 
