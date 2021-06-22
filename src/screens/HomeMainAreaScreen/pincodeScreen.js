@@ -1,12 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Input, CheckBox, Button } from "react-native-elements";
-import { color } from "react-native-elements/dist/helpers";
+import PinContext from "../../components/pinContext";
 
 const PincodeScreen = () => {
+	const { data, checkPincode } = React.useContext(PinContext);
+
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
-	const [data, setData] = React.useState({
+	const [pin_data, setData] = React.useState({
 		errorMessage: "",
 		pincode: 0,
 		ageGroup: true,
@@ -16,20 +18,25 @@ const PincodeScreen = () => {
 	const handlePincodeValidation = (pin) => {
 		if (pin.trim().length > 6) {
 			setData({
-				...data,
+				...pin_data,
 				errorMessage: "6 digit pincode required!",
 			});
 		} else {
-			setData({ ...data, errorMessage: "", pincode: pin });
+			setData({ ...pin_data, errorMessage: "", pincode: pin });
 		}
 	};
 
+	const verifyIndianPin = () => {
+		checkPincode(pin_data.pincode);
+		console.log("IS PIN VALID? : ", data.isValidPin);
+	};
+
 	const handleAgeGroup = () => {
-		setData({ ...data, ageGroup: !data.ageGroup });
+		setData({ ...pin_data, ageGroup: !pin_data.ageGroup });
 	};
 
 	const handleDose = () => {
-		setData({ ...data, doseType: !data.doseType });
+		setData({ ...pin_data, doseType: !pin_data.doseType });
 	};
 
 	return (
@@ -43,9 +50,12 @@ const PincodeScreen = () => {
 					color: "#774c60",
 				}}
 				keyboardType="numeric"
-				errorMessage={data.errorMessage}
+				errorMessage={pin_data.errorMessage}
 				onChangeText={(value) => {
 					handlePincodeValidation(value);
+				}}
+				onEndEditing={() => {
+					verifyIndianPin();
 				}}
 			/>
 
@@ -56,9 +66,9 @@ const PincodeScreen = () => {
 						title="18-44"
 						checkedIcon="dot-circle-o"
 						uncheckedIcon="circle-o"
-						checked={data.ageGroup}
+						checked={pin_data.ageGroup}
 						onPress={() => {
-							if (!data.ageGroup) {
+							if (!pin_data.ageGroup) {
 								handleAgeGroup();
 							}
 						}}
@@ -70,9 +80,9 @@ const PincodeScreen = () => {
 						title="45+"
 						checkedIcon="dot-circle-o"
 						uncheckedIcon="circle-o"
-						checked={!data.ageGroup}
+						checked={!pin_data.ageGroup}
 						onPress={() => {
-							if (data.ageGroup) {
+							if (pin_data.ageGroup) {
 								handleAgeGroup();
 							}
 						}}
@@ -90,9 +100,9 @@ const PincodeScreen = () => {
 						title="Dose 1"
 						checkedIcon="dot-circle-o"
 						uncheckedIcon="circle-o"
-						checked={data.doseType}
+						checked={pin_data.doseType}
 						onPress={() => {
-							if (!data.doseType) {
+							if (!pin_data.doseType) {
 								handleDose();
 							}
 						}}
@@ -104,9 +114,9 @@ const PincodeScreen = () => {
 						title="Dose 2"
 						checkedIcon="dot-circle-o"
 						uncheckedIcon="circle-o"
-						checked={!data.doseType}
+						checked={!pin_data.doseType}
 						onPress={() => {
-							if (data.doseType) {
+							if (pin_data.doseType) {
 								handleDose();
 							}
 						}}

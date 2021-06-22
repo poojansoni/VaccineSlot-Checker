@@ -27,6 +27,7 @@ const MainTabScreen = () => (
 				),
 			}}
 		/>
+
 		<Tab.Screen
 			name="Notifications"
 			component={NotificationStackScreen}

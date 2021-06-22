@@ -7,7 +7,7 @@ import {
 	PROJECT_ID,
 	MESSAGINGSENDER_ID,
 	APP_ID,
-} from "./firebaseVariables";
+} from "../APIVariables";
 // Optionally import the services that you want to use
 // import "firebase/auth";
 // import "firebase/database";
