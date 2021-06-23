@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import * as ActionTypes from "./ActionTypes";
 //import AsyncStorage from "@react-native-async-storage/async-storage";
 import cowinPINApi from "../api/cowinPINApi";
+import districtAPI from "../api/metaDataAPI/districtAPI";
+import stateAPI from "../api/metaDataAPI/stateAPI";
+
 const cowinContext = React.createContext();
 
 export const CowinProvider = ({ children }) => {

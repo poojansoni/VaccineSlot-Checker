@@ -6,7 +6,7 @@ import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 import cowinContext from "../../components/cowinContext";
 
-const PincodeScreen = ({ navigation }) => {
+const PincodeScreen = () => {
 	const maximumDate = new Date();
 	maximumDate.setDate(maximumDate.getDate() + 6);
 
