@@ -1,13 +1,48 @@
 import React from "react";
+import { Alert, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 import cowinContext from "../../components/cowinContext";
 
 const PincodeScreen = () => {
+	const maximumDate = new Date();
+	maximumDate.setDate(maximumDate.getDate() + 6);
+
+	const [date, setDate] = React.useState(null);
+	const [show, setShow] = React.useState(false);
+
+	const onChangeDate = (event, selectedDate) => {
+		setShow(Platform.OS === "ios");
+		const currentDate = selectedDate || date;
+		setDate(currentDate);
+	};
+
+	const showDatepicker = () => {
+		setShow(true);
+	};
+
+	const selecteDate = () => {
+		const d =
+			(date.getDate() < 10 ? "0" : "") +
+			date.getDate().toString() +
+			"-" +
+			(date.getMonth() < 9 ? "0" : "") +
+			(date.getMonth() + 1).toString() +
+			"-" +
+			date.getFullYear().toString();
+		return d;
+	};
+
 	const { isValidPin, checkPincode } = React.useContext(PinContext);
 	const { getCentersPincodeDate } = React.useContext(cowinContext);
-	console.log("SCREEN RENDERED, isValidPin:", isValidPin);
+	// console.log(
+	// 	"SCREEN RENDERED, isValidPin:",
+	// 	isValidPin,
+	// 	" SELECTED DATE: ",
+	// 	selecteDate(),
+	// );
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
 	const [pin_data, setData] = React.useState({
@@ -29,7 +64,10 @@ const PincodeScreen = () => {
 	};
 
 	const verifyIndianPin = async (val) => {
-		if (pin_data.pincode.trim().length < 6 || pin_data.pincode == 0) {
+		if (
+			(val != null && pin_data.pincode.trim().length < 6) ||
+			pin_data.pincode == 0
+		) {
 			setData({
 				...pin_data,
 				errorMessage: "6 digit pincode required!",
@@ -41,7 +79,7 @@ const PincodeScreen = () => {
 				pincode: pin_data.pincode,
 			});
 			await checkPincode(pin_data.pincode);
-			console.log("IS PIN VALID? : ", isValidPin);
+			//console.log("IS PIN VALID? : ", isValidPin);
 		}
 	};
 
@@ -54,7 +92,15 @@ const PincodeScreen = () => {
 	};
 
 	const getUpdatesHandler = () => {
-		getCentersPincodeDate(262001, "23-06-2021");
+		if (isValidPin && date != null) {
+			try {
+				getCentersPincodeDate(pin_data.pincode, selecteDate());
+			} catch (err) {
+				Alert.alert("Error", "Something went wrong!", [{ text: "Okay" }]);
+			}
+		} else {
+			Alert.alert("Error", "Please set all the fields", [{ text: "Okay" }]);
+		}
 	};
 
 	return (
@@ -147,7 +193,24 @@ const PincodeScreen = () => {
 			</View>
 
 			<View style={{ marginTop: 120 }}>
-				<Button title="Book Now" buttonStyle={styles.book_btn} />
+				<Button
+					onPress={() => {
+						showDatepicker();
+					}}
+					title="Pick a date"
+					buttonStyle={styles.book_btn}
+				/>
+				{show && (
+					<DateTimePicker
+						testID="dateTimePicker"
+						value={date ? date : new Date()}
+						mode={"date"}
+						display="default"
+						onChange={onChangeDate}
+						maximumDate={maximumDate}
+						minimumDate={new Date()}
+					/>
+				)}
 			</View>
 
 			<View style={{ marginTop: 17, marginBottom: 50 }}>
