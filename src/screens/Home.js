@@ -2,7 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import DistrictScreen from "./HomeMainAreaScreen/districtScreen";
 import PincodeScreen from "./HomeMainAreaScreen/pincodeScreen";
-import PinContext, { PinProvider } from "../components/pinContext";
+import { PinProvider } from "../components/pinContext";
+import { CowinProvider } from "../components/cowinContext";
 
 const HomeScreen = ({ navigation }) => {
 	const [data, setData] = React.useState({
@@ -60,13 +61,15 @@ const HomeScreen = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.main}>
-				{!data.activeBtn ? (
-					<PinProvider>
-						<PincodeScreen />
-					</PinProvider>
-				) : (
-					<DistrictScreen />
-				)}
+				<CowinProvider>
+					{!data.activeBtn ? (
+						<PinProvider>
+							<PincodeScreen />
+						</PinProvider>
+					) : (
+						<DistrictScreen />
+					)}
+				</CowinProvider>
 			</View>
 		</View>
 	);

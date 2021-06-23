@@ -2,9 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
+import cowinContext from "../../components/cowinContext";
 
 const PincodeScreen = () => {
 	const { isValidPin, checkPincode } = React.useContext(PinContext);
+	const { getCentersPincodeDate } = React.useContext(cowinContext);
 	console.log("SCREEN RENDERED, isValidPin:", isValidPin);
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
@@ -49,6 +51,10 @@ const PincodeScreen = () => {
 
 	const handleDose = () => {
 		setData({ ...pin_data, doseType: !pin_data.doseType });
+	};
+
+	const getUpdatesHandler = () => {
+		getCentersPincodeDate(262001, "23-06-2021");
 	};
 
 	return (
@@ -149,6 +155,9 @@ const PincodeScreen = () => {
 					title="Get Updates"
 					buttonStyle={styles.update_btn}
 					titleStyle={{ color: "#774c60", fontWeight: "bold" }}
+					onPress={() => {
+						getUpdatesHandler();
+					}}
 				/>
 			</View>
 		</View>
