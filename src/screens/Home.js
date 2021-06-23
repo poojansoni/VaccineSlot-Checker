@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#fff",
 		justifyContent: "center",
-		// borderColor: "red",
-		// borderWidth: 5,
+		// borderColor: "yellow",
+		// borderWidth: 2,
 	},
 	option: {
 		flex: 1,

@@ -1,11 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 
-const PincodeScreen = () => {
-	const { data, checkPincode } = React.useContext(PinContext);
-
+const PincodeScreen = (...props) => {
+	const { isValidPin, checkPincode } = React.useContext(PinContext);
+	console.log("SCREEN RENDERED, isValidPin:", isValidPin);
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
 	const [pin_data, setData] = React.useState({
@@ -26,9 +26,17 @@ const PincodeScreen = () => {
 		}
 	};
 
-	const verifyIndianPin = () => {
-		checkPincode(pin_data.pincode);
-		console.log("IS PIN VALID? : ", data.isValidPin);
+	const verifyIndianPin = async (val) => {
+		if (val < 6) {
+			setData({
+				...pin_data,
+				errorMessage: "6 digit pincode required!",
+			});
+			Alert.alert("Error", "Please fill all the information");
+		} else {
+			setData({ ...pin_data, errorMessage: "", pincode: pin_data.pincode });
+			await checkPincode(pin_data.pincode);
+		}
 	};
 
 	const handleAgeGroup = () => {
@@ -40,7 +48,7 @@ const PincodeScreen = () => {
 	};
 
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<Input
 				label="Pincode"
 				placeholder="- - - - - -"
@@ -54,8 +62,8 @@ const PincodeScreen = () => {
 				onChangeText={(value) => {
 					handlePincodeValidation(value);
 				}}
-				onEndEditing={() => {
-					verifyIndianPin();
+				onEndEditing={(val) => {
+					verifyIndianPin(val);
 				}}
 			/>
 

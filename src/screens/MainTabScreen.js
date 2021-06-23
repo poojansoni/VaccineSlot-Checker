@@ -16,6 +16,9 @@ const MainTabScreen = () => (
 		activeColor="#fff"
 		inactiveColor="#774c60"
 		barStyle={{ backgroundColor: "#9998A1" }}
+		tabBarOptions={{
+			keyboardHidesTabBar: false,
+		}}
 	>
 		<Tab.Screen
 			name="Home"

@@ -6,28 +6,11 @@ const PinContext = React.createContext();
 
 const pinReducer = (state, action) => {
 	switch (action.type) {
-		//case ActionTypes.SIGN_IN:
 		case ActionTypes.VERIFY_PIN:
 			return {
 				...state,
-				isValidPin: true,
+				isValidPin: action.payload.isValidPin,
 			};
-		// 	case ActionTypes.SIGN_OUT:
-		// 		return {
-		// 			...state,
-		// 			userId: "",
-		// 			token: null,
-		// 		};
-		// 	case ActionTypes.IS_AUTHENTICATING:
-		// 		return {
-		// 			...state,
-		// 			isAuthenticating: true,
-		// 		};
-		// 	case ActionTypes.TRIED_LOCAL_SIGNIN:
-		// 		return {
-		// 			...state,
-		// 			triedLocalSignIn: true,
-		// 		};
 		default:
 			return state;
 	}
@@ -35,143 +18,51 @@ const pinReducer = (state, action) => {
 
 export const PinProvider = ({ children }) => {
 	const [PinState, dispatch] = useReducer(pinReducer, {
-		// userId: "",
-		// token: null,
 		isValidPin: false,
-		// triedLocalSignIn: false,
+		pincode: 0,
 	});
 
-	// const [currentUser, setCurrentUser] = React.useState();
-
-	// const [data, setData] = React.useState();
-
-	//console.log("OUR STATE:", authState);
-
-	// const tryLocalSignIn = async () => {
-	// 	try {
-	// 		const token = await AsyncStorage.getItem("token");
-	// 		const userId = await AsyncStorage.getItem("userEmail");
-	// 		if (!token) {
-	// 			dispatch({ type: ActionTypes.TRIED_LOCAL_SIGNIN });
-	// 			return;
-	// 		}
-	// 		// try {
-	// 		// 	getProfilePic();
-	// 		// } catch (err) {}
-	// 		dispatch({
-	// 			type: ActionTypes.SIGN_IN,
-	// 			payload: { token, userId },
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("COULD NOT READ ASYNCSTORAGE:", error);
-	// 	}
-	// 	dispatch({ type: ActionTypes.TRIED_LOCAL_SIGNIN });
-	// };
-
-	// const signUp = async (email, password) => {
-	// 	console.log("INSIDE SIGN UP email & PAss :", email, password);
-	// 	dispatch({ type: ActionTypes.IS_AUTHENTICATING });
-	// 	try {
-	// 		const response = await Firebase.auth().createUserWithEmailAndPassword(
-	// 			email,
-	// 			password,
-	// 		);
-	// 		await AsyncStorage.setItem("token", response.user.uid);
-	// 		await AsyncStorage.setItem("userEmail", response.user.email);
-	// 		// try {
-	// 		// 	getProfilePic();
-	// 		// } catch (err) {}
-	// 		dispatch({
-	// 			type: ActionTypes.SIGN_UP,
-	// 			payload: {
-	// 				token: response.user.uid,
-	// 				userId: response.user.email,
-	// 			},
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("ERROR IN SIGNUP:", error);
-
-	// 		throw new Error("Something went wrong");
-	// 	}
-	// };
-
-	// const signIn = async (email, password) => {
-	// 	console.log("INSIDE SIGN IN email & PAss :", email, password);
-
-	// 	dispatch({ type: ActionTypes.IS_AUTHENTICATING });
-	// 	try {
-	// 		const response = await Firebase.auth().signInWithEmailAndPassword(
-	// 			email,
-	// 			password,
-	// 		);
-	// 		await AsyncStorage.setItem("token", response.user.uid);
-	// 		await AsyncStorage.setItem("userEmail", response.user.email);
-	// 		// try {
-	// 		// 	getProfilePic();
-	// 		// } catch (err) {}
-	// 		dispatch({
-	// 			type: ActionTypes.SIGN_IN,
-	// 			payload: {
-	// 				token: response.user.uid,
-	// 				userId: response.user.email,
-	// 			},
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("ERROR IN SIGNIN:", error);
-
-	// 		throw new Error("Something went wrong");
-	// 	}
-	// };
-
-	// const signOut = async () => {
-	// 	console.log("INSIDE SIGN OUT ");
-	// 	dispatch({ type: ActionTypes.SIGN_OUT });
-	// 	try {
-	// 		await AsyncStorage.removeItem("token");
-	// 		await AsyncStorage.removeItem("userEmail");
-	// 		//await AsyncStorage.removeItem("DP");
-	// 		await Firebase.auth().signOut();
-	// 	} catch (error) {
-	// 		console.log("ERROR IN SIGNOUT:", error);
-
-	// 		throw new Error("Something went wrong");
-	// 	}
-	// };
+	console.log("PIN STATE:", PinState);
 
 	const checkPincode = async (pin) => {
+		console.log("PREVIOUS VALIDATION: ", PinState.isValidPin);
 		console.log("Recieved Pin: ", pin);
 		try {
 			const response = await pinVerifyApi.get("/pincode/" + pin);
 			console.log(
-				"RESONSE: ",
+				"RESONSE-MESSAGE: ",
 				response.data[0].Message,
-				" STATUS: ",
+				"RESPONSE-STATUS: ",
 				response.data[0].Status,
 			);
-			if (response.data[0].PostOffice != null) {
+			if (
+				response.data[0].Status === "Success"
+				// response.data[0].PostOffice != null &&
+				// response.data[0].PostOffice > 0
+			) {
 				dispatch({
 					type: ActionTypes.VERIFY_PIN,
+					payload: { isValidPin: true },
 				});
 			} else {
-				// dispatch({
-				// 	type: ActionTypes.VERIFY_PIN,
-				// });
+				dispatch({
+					type: ActionTypes.VERIFY_PIN,
+					payload: { isValidPin: false },
+				});
 			}
 		} catch (error) {
 			console.log("ERROR IN VERIFYING PINCODE:", error);
-			// dispatch({
-			// 	type: ActionTypes.VERIFY_PIN,
-			// });
+			dispatch({
+				type: ActionTypes.VERIFY_PIN,
+				payload: { isValidPin: false },
+			});
 		}
 	};
 	return (
 		<PinContext.Provider
 			value={{
-				data: PinState,
+				isValidPin: PinState.isValidPin,
 				checkPincode,
-				// signUp,
-				// signIn,
-				// signOut,
 			}}
 		>
 			{children}
