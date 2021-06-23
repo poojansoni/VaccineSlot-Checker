@@ -61,15 +61,15 @@ const HomeScreen = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.main}>
-				<CowinProvider>
-					{!data.activeBtn ? (
-						<PinProvider>
-							<PincodeScreen />
-						</PinProvider>
-					) : (
-						<DistrictScreen />
-					)}
-				</CowinProvider>
+				{/* <CowinProvider> */}
+				{!data.activeBtn ? (
+					<PinProvider>
+						<PincodeScreen />
+					</PinProvider>
+				) : (
+					<DistrictScreen />
+				)}
+				{/* </CowinProvider> */}
 			</View>
 		</View>
 	);

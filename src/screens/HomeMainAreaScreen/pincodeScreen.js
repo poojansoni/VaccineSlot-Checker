@@ -6,7 +6,7 @@ import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 import cowinContext from "../../components/cowinContext";
 
-const PincodeScreen = () => {
+const PincodeScreen = ({ navigation }) => {
 	const maximumDate = new Date();
 	maximumDate.setDate(maximumDate.getDate() + 6);
 
@@ -94,9 +94,20 @@ const PincodeScreen = () => {
 	const getUpdatesHandler = () => {
 		if (isValidPin && date != null) {
 			try {
-				getCentersPincodeDate(pin_data.pincode, selecteDate());
+				// agegroup true for 18 to 44 and false for abv
+				// dosetype true for Dose1 and false for Dose2
+				let doseNum = pin_data.doseType ? 1 : 2;
+				let age = pin_data.ageGroup ? 18 : 45;
+				getCentersPincodeDate(pin_data.pincode, selecteDate(), doseNum, age);
+				Alert.alert(
+					"Success",
+					"Please vist update section for Center Details",
+					[{ text: "Okay" }],
+				);
 			} catch (err) {
-				Alert.alert("Error", "Something went wrong!", [{ text: "Okay" }]);
+				Alert.alert("Error", "Something went wrong! " + err, [
+					{ text: "Okay" },
+				]);
 			}
 		} else {
 			Alert.alert("Error", "Please set all the fields", [{ text: "Okay" }]);
