@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import DropDownPicker from "react-native-dropdown-picker";
 import { Alert, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
@@ -9,8 +10,19 @@ const DistrictScreen = () => {
 	const maximumDate = new Date();
 	maximumDate.setDate(maximumDate.getDate() + 6);
 
+	//DATE VALUES
 	const [date, setDate] = React.useState(null);
 	const [show, setShow] = React.useState(false);
+
+	//STATES VALUE
+	const [stateOpen, setStateOpen] = useState(false);
+	const [stateValue, setStateValue] = useState(null);
+	const [stateItems, setStateItems] = useState([{}]);
+
+	//District VALUE
+	const [districtOpen, setDistrictOpen] = useState(false);
+	const [districtValue, setDistrictValue] = useState(null);
+	const [districtItems, setDistrictItems] = useState([{}]);
 
 	const onChangeDate = (event, selectedDate) => {
 		setShow(Platform.OS === "ios");
@@ -36,22 +48,40 @@ const DistrictScreen = () => {
 
 	const { states, getStates, getDistricts } = React.useContext(DistrictContext);
 
+	const setStates = () => {
+		const stateArray = new Array();
+		states.forEach((stateObj) => {
+			stateArray.push({
+				label: stateObj.state_name.toString(),
+				value: stateObj.state_id,
+			});
+		});
+		//console.log("ARRAY STATES: ", stateArray);
+		setStateItems(stateArray);
+		//console.log("SET STATES: ", stateItems);
+	};
+
+	const setDistricts = () => {
+		const DistrictArray = new Array();
+		states.forEach((stateObj) => {
+			DistrictArray.push({
+				label: stateObj.state_name.toString(),
+				value: stateObj.state_id,
+			});
+		});
+		//console.log("ARRAY STATES: ", stateArray);
+		setDistrictItems(DistrictArray);
+		//console.log("SET STATES: ", stateItems);
+	};
+
 	useEffect(() => {
 		getStates();
 	}, []);
-
-	// console.log(
-	// 	"SCREEN RENDERED, isValidPin:",
-	// 	isValidPin,
-	// 	" SELECTED DATE: ",
-	// 	selecteDate(),
-	// );
 
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
 
 	const [dist_data, setData] = React.useState({
-		errorMessage: "",
 		ageGroup: true,
 		doseType: true,
 	});
@@ -64,30 +94,59 @@ const DistrictScreen = () => {
 		setData({ ...dist_data, doseType: !dist_data.doseType });
 	};
 
-	const getUpdatesHandler = () => {
-		console.log(states);
-	};
+	const onStateOpen = useCallback(() => {
+		setDistrictOpen(false);
+	}, []);
+
+	const onDistrictOpen = useCallback(() => {
+		setStateOpen(false);
+	}, []);
+
+	const getUpdatesHandler = () => {};
 
 	return (
 		<View style={{ flex: 1 }}>
-			{/* <Input
-				label="Pincode"
-				placeholder="- - - - - -"
-				rightIcon={{
-					type: "font-awesome",
-					name: "map-marker",
-					color: "#774c60",
+			<DropDownPicker
+				onPress={() => {
+					setStates();
 				}}
-				keyboardType="numeric"
-				errorMessage={isValidPin ? "Valid pincode" : pin_data.errorMessage}
-				errorStyle={isValidPin ? { color: "green" } : { color: "red" }}
-				onChangeText={(value) => {
-					handlePincodeValidation(value);
+				open={stateOpen}
+				onOpen={onStateOpen}
+				zIndex={3000}
+				zIndexInverse={1000}
+				value={stateValue}
+				items={stateItems}
+				setOpen={setStateOpen}
+				setValue={setStateValue}
+				setItems={setStateItems}
+				onChangeValue={(val) => {
+					if (val) {
+						getDistricts(val);
+					}
 				}}
-				onEndEditing={() => {
-					verifyIndianPin();
+				placeholder="Select State"
+				style={{ marginBottom: 30 }}
+			/>
+
+			<DropDownPicker
+				onPress={() => {
+					//setStates();
 				}}
-			/> */}
+				open={districtOpen}
+				onOpen={onDistrictOpen}
+				zIndex={2000}
+				zIndexInverse={2000}
+				value={districtValue}
+				items={districtItems}
+				setOpen={setDistrictOpen}
+				setValue={setDistrictValue}
+				setItems={setDistrictItems}
+				onChangeValue={(val) => {
+					//console.log("VALUE CHANGED: ", val);
+				}}
+				placeholder="Select District"
+				style={{ marginBottom: 25 }}
+			/>
 
 			<View>
 				<Text style={styles.textStyle}>Age Group</Text>

@@ -23,7 +23,7 @@ export const DistrictProvider = ({ children }) => {
 
 	const getDistricts = async (stateID) => {
 		try {
-			const response = await districtAPI.get(`/${stateID}`);
+			const response = await districtAPI.get(`/districts/${stateID}`);
 			console.log(response);
 		} catch (error) {
 			console.log("ERROR IN GETTING DISTRICT METADATA:", error);
