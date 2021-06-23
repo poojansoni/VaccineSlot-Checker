@@ -11,4 +11,4 @@ web-build/
 
 # macOS
 .DS_Store
-src/api/firebase/firebaseVariables.js
+src/api/APIVariables.js
