@@ -46,7 +46,8 @@ const DistrictScreen = () => {
 		return d;
 	};
 
-	const { states, getStates, getDistricts } = React.useContext(DistrictContext);
+	const { states, districts, getStates, getDistricts } =
+		React.useContext(DistrictContext);
 
 	const setStates = () => {
 		const stateArray = new Array();
@@ -63,10 +64,10 @@ const DistrictScreen = () => {
 
 	const setDistricts = () => {
 		const DistrictArray = new Array();
-		states.forEach((stateObj) => {
+		districts.forEach((distObj) => {
 			DistrictArray.push({
-				label: stateObj.state_name.toString(),
-				value: stateObj.state_id,
+				label: distObj.district_name.toString(),
+				value: distObj.district_id,
 			});
 		});
 		//console.log("ARRAY STATES: ", stateArray);
@@ -128,25 +129,27 @@ const DistrictScreen = () => {
 				style={{ marginBottom: 30 }}
 			/>
 
-			<DropDownPicker
-				onPress={() => {
-					//setStates();
-				}}
-				open={districtOpen}
-				onOpen={onDistrictOpen}
-				zIndex={2000}
-				zIndexInverse={2000}
-				value={districtValue}
-				items={districtItems}
-				setOpen={setDistrictOpen}
-				setValue={setDistrictValue}
-				setItems={setDistrictItems}
-				onChangeValue={(val) => {
-					//console.log("VALUE CHANGED: ", val);
-				}}
-				placeholder="Select District"
-				style={{ marginBottom: 25 }}
-			/>
+			{stateValue && (
+				<DropDownPicker
+					onPress={() => {
+						setDistricts();
+					}}
+					open={districtOpen}
+					onOpen={onDistrictOpen}
+					zIndex={2000}
+					zIndexInverse={2000}
+					value={districtValue}
+					items={districtItems}
+					setOpen={setDistrictOpen}
+					setValue={setDistrictValue}
+					setItems={setDistrictItems}
+					onChangeValue={(val) => {
+						console.log("DISTRCT VALUE CHANGED: ", val);
+					}}
+					placeholder="Select District"
+					style={{ marginBottom: 25 }}
+				/>
+			)}
 
 			<View>
 				<Text style={styles.textStyle}>Age Group</Text>
