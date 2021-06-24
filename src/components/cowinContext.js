@@ -9,46 +9,48 @@ export const CowinProvider = ({ children }) => {
 	const [Districts, setDistricts] = useState([{}]);
 	const [States, setStates] = useState([{}]);
 	const [CowinState, setCowinState] = useState([]);
-	//flag =0 means pin screen else 1 means disrict
-	// const [flag, setFlag] = useState(0);
 
-	// const setFalgfromHome = (val) => {
-	// 	setFlag(val);
-	// };
-	//console.log("COWIN STATE:", CowinState);
+	//console.log("COWIN STATE :", CowinState[0]);
 
-	const setCenters = (response, doseNum, age) => {
+	const setCenters = (sessions, doseNum, age) => {
 		const centeres = new Array();
-		response.data.sessions.forEach((obj) => {
+		//console.log("INSIDE SET CENTERS : SESSIon : ", sessions);
+		sessions.forEach((obj) => {
 			if (obj.min_age_limit == age) {
-				console.log("1st PASSED");
+				//console.log("1st PASSED");
 
-				if (doseNum == 1 && obj.available_capacity_dose1 != 0) {
-					const center = {
-						NAME: obj.name,
-						MIN_AGE: obj.min_age_limit,
-						AVAILAIBLE_DOSE1: obj.available_capacity_dose1,
-						AVAILAIBLE_DOSE2: obj.available_capacity_dose2,
-						VACCINE_TYPE: obj.vaccine,
-						ADDRESS: obj.address,
-					};
-					console.log("FIRST CONDITION");
-					centeres.push(center);
-				} else if (doseNum == 2 && obj.available_capacity_dose2 != 0) {
-					const center = {
-						NAME: obj.name,
-						MIN_AGE: obj.min_age_limit,
-						AVAILAIBLE_DOSE1: obj.available_capacity_dose1,
-						AVAILAIBLE_DOSE2: obj.available_capacity_dose2,
-						VACCINE_TYPE: obj.vaccine,
-						ADDRESS: obj.address,
-					};
-					console.log("SECOND CONDITION");
-					centeres.push(center);
+				if (doseNum == 1) {
+					//console.log("FIRST CONDITION");
+					if (obj.available_capacity_dose1 != 0) {
+						const center = {
+							NAME: obj.name,
+							MIN_AGE: obj.min_age_limit,
+							AVAILAIBLE_DOSE1: obj.available_capacity_dose1,
+							AVAILAIBLE_DOSE2: obj.available_capacity_dose2,
+							VACCINE_TYPE: obj.vaccine,
+							ADDRESS: obj.address,
+						};
+
+						centeres.push(center);
+					}
+				} else if (doseNum == 2) {
+					//console.log("SECOND CONDITION");
+					if (obj.available_capacity_dose2 != 0) {
+						const center = {
+							NAME: obj.name,
+							MIN_AGE: obj.min_age_limit,
+							AVAILAIBLE_DOSE1: obj.available_capacity_dose1,
+							AVAILAIBLE_DOSE2: obj.available_capacity_dose2,
+							VACCINE_TYPE: obj.vaccine,
+							ADDRESS: obj.address,
+						};
+
+						centeres.push(center);
+					}
 				}
 			}
 		});
-		console.log(centeres);
+		//console.log(centeres);
 		setCowinState(centeres);
 	};
 
@@ -61,7 +63,7 @@ export const CowinProvider = ({ children }) => {
 			// console.log("RESPONSE:", response.data);
 
 			if (response.data.sessions != null && response.data.sessions.length > 0) {
-				setCenters(response, doseNum, age);
+				setCenters(response.data.sessions, doseNum, age);
 			}
 		} catch (error) {
 			console.log("ERROR IN GETTING CENTRES BY PINCODE:", error);
@@ -75,7 +77,7 @@ export const CowinProvider = ({ children }) => {
 			);
 
 			if (response.data.sessions != null && response.data.sessions.length > 0) {
-				setCenters(response, doseNum, age);
+				setCenters(response.data.sessions, doseNum, age);
 			}
 		} catch (error) {
 			console.log("ERROR IN GETTING CENTRES BY DISTRICT:", error);

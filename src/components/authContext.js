@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
 	// const [data, setData] = React.useState();
 
-	console.log("OUR STATE:", authState);
+	//	console.log("OUR STATE:", authState);
 
 	const tryLocalSignIn = async () => {
 		try {
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signUp = async (email, password) => {
-		console.log("INSIDE SIGN UP email & PAss :", email, password);
+		//console.log("INSIDE SIGN UP email & PAss :", email, password);
 		dispatch({ type: ActionTypes.IS_AUTHENTICATING });
 		try {
 			const response = await Firebase.auth().createUserWithEmailAndPassword(
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signIn = async (email, password) => {
-		console.log("INSIDE SIGN IN email & PAss :", email, password);
+		//console.log("INSIDE SIGN IN email & PAss :", email, password);
 
 		dispatch({ type: ActionTypes.IS_AUTHENTICATING });
 		try {
@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signOut = async () => {
-		console.log("INSIDE SIGN OUT ");
+		//console.log("INSIDE SIGN OUT ");
 		dispatch({ type: ActionTypes.SIGN_OUT });
 		try {
 			await AsyncStorage.removeItem("token");
@@ -145,25 +145,6 @@ export const AuthProvider = ({ children }) => {
 			throw new Error("Something went wrong");
 		}
 	};
-
-	// const getProfilePic = async () => {
-	// 	console.log("INSIDE PROFILE SAVE ");
-	// 	Firebase.auth().onAuthStateChanged((user) => {
-	// 		setCurrentUser(user);
-	// 	});
-	// 	try {
-	// 		const url = currentUser.photoURL;
-	// 		if (url) {
-	// 			await AsyncStorage.setItem("DP", url);
-	// 		} else {
-	// 			throw new Error("DP DOES NOT EXISTS");
-	// 		}
-	// 	} catch (error) {
-	// 		console.log("ERROR IN GETTING DP:", error);
-
-	// 		throw new Error("Something went wrong");
-	// 	}
-	// };
 
 	return (
 		<AuthContext.Provider

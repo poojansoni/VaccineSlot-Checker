@@ -29,7 +29,7 @@ export function DrawerContent(props) {
 					userEmail: "Your Name",
 				});
 			}
-			console.log("EMAIL ", data.userEmail);
+			//console.log("EMAIL ", data.userEmail);
 		} catch (error) {
 			console.log("Something went wrong : ", error);
 		}

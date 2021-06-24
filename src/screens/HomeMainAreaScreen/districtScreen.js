@@ -103,14 +103,14 @@ const DistrictScreen = () => {
 		setStateOpen(false);
 	}, []);
 
-	const getUpdatesHandler = () => {
+	const getUpdatesHandler = async () => {
 		if (stateValue != null && districtValue != null) {
 			try {
 				// agegroup true for 18 to 44 and false for abv
 				// dosetype true for Dose1 and false for Dose2
 				let doseNum = dist_data.doseType ? 1 : 2;
 				let age = dist_data.ageGroup ? 18 : 45;
-				getDistrictResponse(districtValue, selecteDate(), doseNum, age);
+				await getDistrictResponse(districtValue, selecteDate(), doseNum, age);
 				Alert.alert(
 					"Success",
 					"Please vist update section for Center Details",
@@ -164,9 +164,9 @@ const DistrictScreen = () => {
 					setOpen={setDistrictOpen}
 					setValue={setDistrictValue}
 					setItems={setDistrictItems}
-					onChangeValue={(val) => {
-						console.log("DISTRCT VALUE CHANGED: ", val);
-					}}
+					// onChangeValue={(val) => {
+					// 	console.log("DISTRCT VALUE CHANGED: ", val);
+					// }}
 					placeholder="Select District"
 					style={{ marginBottom: 25 }}
 				/>

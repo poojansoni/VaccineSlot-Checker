@@ -23,8 +23,8 @@ const Drawer = createDrawerNavigator();
 const AppNavigator = () => {
 	const { data } = useContext(AuthContext);
 	const { token, triedLocalSignIn } = data;
-	console.log("TOKEN:", token);
-	console.log("IS_TRIEDLOCALSIGNIN:", triedLocalSignIn);
+	// console.log("TOKEN:", token);
+	// console.log("IS_TRIEDLOCALSIGNIN:", triedLocalSignIn);
 
 	return (
 		<NavigationContainer>

@@ -37,12 +37,7 @@ const PincodeScreen = () => {
 
 	const { isValidPin, checkPincode } = React.useContext(PinContext);
 	const { getPinResponse } = React.useContext(cowinContext);
-	// console.log(
-	// 	"SCREEN RENDERED, isValidPin:",
-	// 	isValidPin,
-	// 	" SELECTED DATE: ",
-	// 	selecteDate(),
-	// );
+
 	// agegroup true for 18 to 44 and false for abv
 	// dosetype true for Dose1 and false for Dose2
 	const [pin_data, setData] = React.useState({
@@ -79,7 +74,6 @@ const PincodeScreen = () => {
 				pincode: pin_data.pincode,
 			});
 			await checkPincode(pin_data.pincode);
-			//console.log("IS PIN VALID? : ", isValidPin);
 		}
 	};
 
@@ -91,14 +85,14 @@ const PincodeScreen = () => {
 		setData({ ...pin_data, doseType: !pin_data.doseType });
 	};
 
-	const getUpdatesHandler = () => {
+	const getUpdatesHandler = async () => {
 		if (isValidPin && date != null) {
 			try {
 				// agegroup true for 18 to 44 and false for abv
 				// dosetype true for Dose1 and false for Dose2
 				let doseNum = pin_data.doseType ? 1 : 2;
 				let age = pin_data.ageGroup ? 18 : 45;
-				getPinResponse(pin_data.pincode, selecteDate(), doseNum, age);
+				await getPinResponse(pin_data.pincode, selecteDate(), doseNum, age);
 				Alert.alert(
 					"Success",
 					"Please vist update section for Center Details",
