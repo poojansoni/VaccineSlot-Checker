@@ -6,7 +6,7 @@ import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 import cowinContext from "../../components/cowinContext";
 
-const PincodeScreen = () => {
+const PincodeScreen = ({ navigation }) => {
 	const maximumDate = new Date();
 	maximumDate.setDate(maximumDate.getDate() + 6);
 
@@ -93,18 +93,17 @@ const PincodeScreen = () => {
 				let doseNum = pin_data.doseType ? 1 : 2;
 				let age = pin_data.ageGroup ? 18 : 45;
 				await getPinResponse(pin_data.pincode, selecteDate(), doseNum, age);
-				Alert.alert(
-					"Success",
-					"Please vist update section for Center Details",
-					[{ text: "Okay" }],
-				);
+				navigation.navigate("Notifications");
+				// Alert.alert(
+				// 	"Success",
+				// 	"Please vist update section for Center Details",
+				// 	[{ text: "Okay" }],
+				// );
 			} catch (err) {
-				Alert.alert("Error", "Something went wrong! " + err, [
-					{ text: "Okay" },
-				]);
+				Alert.alert("Error", "Something went wrong! ");
 			}
 		} else {
-			Alert.alert("Error", "Please set all the fields", [{ text: "Okay" }]);
+			Alert.alert("Error", "Please set all the fields");
 		}
 	};
 
@@ -197,7 +196,30 @@ const PincodeScreen = () => {
 				</View>
 			</View>
 
-			<View style={{ marginTop: 120 }}>
+			<View style={{ marginTop: 110 }}>
+				<View
+					style={{
+						alignItems: "center",
+						marginBottom: 7,
+						flexDirection: "row",
+					}}
+				>
+					<Text style={[styles.textStyle, { color: "#444" }]}>
+						Selected Date:
+					</Text>
+					{date != null ? (
+						<Text style={{ fontWeight: "bold", color: "#555" }}>
+							{"  " +
+								(date.getDate() < 10 ? "0" : "") +
+								date.getDate().toString() +
+								"-" +
+								(date.getMonth() < 9 ? "0" : "") +
+								(date.getMonth() + 1).toString() +
+								"-" +
+								date.getFullYear().toString()}
+						</Text>
+					) : null}
+				</View>
 				<Button
 					onPress={() => {
 						showDatepicker();

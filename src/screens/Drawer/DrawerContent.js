@@ -34,26 +34,7 @@ export function DrawerContent(props) {
 			console.log("Something went wrong : ", error);
 		}
 	};
-	// const setDP = async () => {
-	// 	let dp = null;
-	// 	try {
-	// 		dp = await AsyncStorage.getItem("DP");
-	// 		if (dp) {
-	// 			setData({
-	// 				...data,
-	// 				userDp: dp,
-	// 			});
-	// 		} else {
-	// 			setData({
-	// 				...data,
-	// 				userDp: profile,
-	// 			});
-	// 		}
-	// 		console.log("DP ", data.userDp);
-	// 	} catch (error) {
-	// 		console.log("Something went wrong : ", error);
-	// 	}
-	// };
+
 	const setUserProfile = async () => {
 		setEmail();
 		//setDP();

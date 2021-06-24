@@ -4,7 +4,7 @@ import DistrictScreen from "./HomeMainAreaScreen/districtScreen";
 import PincodeScreen from "./HomeMainAreaScreen/pincodeScreen";
 import { PinProvider } from "../components/pinContext";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 	const [data, setData] = React.useState({
 		activeBtn: 0,
 	});
@@ -63,10 +63,10 @@ const HomeScreen = () => {
 			<View style={styles.main}>
 				{!data.activeBtn ? (
 					<PinProvider>
-						<PincodeScreen />
+						<PincodeScreen navigation={navigation} />
 					</PinProvider>
 				) : (
-					<DistrictScreen />
+					<DistrictScreen navigation={navigation} />
 				)}
 			</View>
 		</View>

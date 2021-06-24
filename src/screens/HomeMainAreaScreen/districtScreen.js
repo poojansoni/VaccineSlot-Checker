@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
 import cowinContext from "../../components/cowinContext";
 
-const DistrictScreen = () => {
+const DistrictScreen = ({ navigation }) => {
 	const maximumDate = new Date();
 	maximumDate.setDate(maximumDate.getDate() + 6);
 
@@ -17,12 +17,12 @@ const DistrictScreen = () => {
 	//STATES VALUE
 	const [stateOpen, setStateOpen] = useState(false);
 	const [stateValue, setStateValue] = useState(null);
-	const [stateItems, setStateItems] = useState([{}]);
+	const [stateItems, setStateItems] = useState([]);
 
 	//District VALUE
 	const [districtOpen, setDistrictOpen] = useState(false);
 	const [districtValue, setDistrictValue] = useState(null);
-	const [districtItems, setDistrictItems] = useState([{}]);
+	const [districtItems, setDistrictItems] = useState([]);
 
 	const onChangeDate = (event, selectedDate) => {
 		setShow(Platform.OS === "ios");
@@ -111,18 +111,17 @@ const DistrictScreen = () => {
 				let doseNum = dist_data.doseType ? 1 : 2;
 				let age = dist_data.ageGroup ? 18 : 45;
 				await getDistrictResponse(districtValue, selecteDate(), doseNum, age);
-				Alert.alert(
-					"Success",
-					"Please vist update section for Center Details",
-					[{ text: "Okay" }],
-				);
+				navigation.navigate("Notifications");
+				// Alert.alert(
+				// 	"Success",
+				// 	"Please vist update section for Center Details",
+				// 	[{ text: "Okay" }],
+				// );
 			} catch (err) {
-				Alert.alert("Error", "Something went wrong! " + err, [
-					{ text: "Okay" },
-				]);
+				Alert.alert("Error", "Something went wrong! ");
 			}
 		} else {
-			Alert.alert("Error", "Please set all the fields", [{ text: "Okay" }]);
+			Alert.alert("Error", "Please set all the fields");
 		}
 	};
 
@@ -240,7 +239,31 @@ const DistrictScreen = () => {
 				</View>
 			</View>
 
-			<View style={{ marginTop: 120 }}>
+			<View style={{ marginTop: 110 }}>
+				<View
+					style={{
+						alignItems: "center",
+						marginBottom: 7,
+						flexDirection: "row",
+					}}
+				>
+					<Text style={[styles.textStyle, { color: "#444" }]}>
+						Selected Date:
+					</Text>
+					{date != null ? (
+						<Text style={{ fontWeight: "bold", color: "#555" }}>
+							{"  " +
+								(date.getDate() < 10 ? "0" : "") +
+								date.getDate().toString() +
+								"-" +
+								(date.getMonth() < 9 ? "0" : "") +
+								(date.getMonth() + 1).toString() +
+								"-" +
+								date.getFullYear().toString()}
+						</Text>
+					) : null}
+				</View>
+
 				<Button
 					onPress={() => {
 						showDatepicker();

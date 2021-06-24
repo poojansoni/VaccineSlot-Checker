@@ -10,7 +10,7 @@ export const CowinProvider = ({ children }) => {
 	const [States, setStates] = useState([{}]);
 	const [CowinState, setCowinState] = useState([]);
 
-	//console.log("COWIN STATE :", CowinState[0]);
+	// console.log("COWIN STATE :", CowinState[0]);
 
 	const setCenters = (sessions, doseNum, age) => {
 		const centeres = new Array();
@@ -67,6 +67,7 @@ export const CowinProvider = ({ children }) => {
 			}
 		} catch (error) {
 			console.log("ERROR IN GETTING CENTRES BY PINCODE:", error);
+			setCowinState([]);
 		}
 	};
 
@@ -81,6 +82,7 @@ export const CowinProvider = ({ children }) => {
 			}
 		} catch (error) {
 			console.log("ERROR IN GETTING CENTRES BY DISTRICT:", error);
+			setCowinState([]);
 		}
 	};
 
