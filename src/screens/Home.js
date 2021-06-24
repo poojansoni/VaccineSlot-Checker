@@ -3,9 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import DistrictScreen from "./HomeMainAreaScreen/districtScreen";
 import PincodeScreen from "./HomeMainAreaScreen/pincodeScreen";
 import { PinProvider } from "../components/pinContext";
-import { DistrictProvider } from "../components/districtContext";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
 	const [data, setData] = React.useState({
 		activeBtn: 0,
 	});
@@ -22,8 +21,9 @@ const HomeScreen = ({ navigation }) => {
 				activeBtn: 0,
 			});
 		}
-		console.log("ACTIVE BUTTON VALUE : ", data.activeBtn);
 	};
+
+	//console.log("ACTIVE BUTTON VALUE : ", data.activeBtn);
 	return (
 		<View style={styles.selector}>
 			<View style={styles.option}>
@@ -61,17 +61,13 @@ const HomeScreen = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.main}>
-				{/* <CowinProvider> */}
 				{!data.activeBtn ? (
 					<PinProvider>
 						<PincodeScreen />
 					</PinProvider>
 				) : (
-					<DistrictProvider>
-						<DistrictScreen />
-					</DistrictProvider>
+					<DistrictScreen />
 				)}
-				{/* </CowinProvider> */}
 			</View>
 		</View>
 	);

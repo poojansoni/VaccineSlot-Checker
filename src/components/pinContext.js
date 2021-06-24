@@ -29,12 +29,12 @@ export const PinProvider = ({ children }) => {
 		console.log("Recieved Pin: ", pin);
 		try {
 			const response = await pinVerifyApi.get("/pincode/" + pin);
-			console.log(
-				"RESONSE-MESSAGE: ",
-				response.data[0].Message,
-				"RESPONSE-STATUS: ",
-				response.data[0].Status,
-			);
+			// console.log(
+			// 	"RESONSE-MESSAGE: ",
+			// 	response.data[0].Message,
+			// 	"RESPONSE-STATUS: ",
+			// 	response.data[0].Status,
+			// );
 			if (
 				response.data[0].Status === "Success"
 				// response.data[0].PostOffice != null &&

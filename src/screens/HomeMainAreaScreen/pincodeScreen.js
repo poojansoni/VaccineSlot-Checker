@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Input, CheckBox, Button } from "react-native-elements";
 import PinContext from "../../components/pinContext";
 import cowinContext from "../../components/cowinContext";
@@ -36,7 +36,7 @@ const PincodeScreen = () => {
 	};
 
 	const { isValidPin, checkPincode } = React.useContext(PinContext);
-	const { getCentersPincodeDate } = React.useContext(cowinContext);
+	const { getPinResponse } = React.useContext(cowinContext);
 	// console.log(
 	// 	"SCREEN RENDERED, isValidPin:",
 	// 	isValidPin,
@@ -98,7 +98,7 @@ const PincodeScreen = () => {
 				// dosetype true for Dose1 and false for Dose2
 				let doseNum = pin_data.doseType ? 1 : 2;
 				let age = pin_data.ageGroup ? 18 : 45;
-				getCentersPincodeDate(pin_data.pincode, selecteDate(), doseNum, age);
+				getPinResponse(pin_data.pincode, selecteDate(), doseNum, age);
 				Alert.alert(
 					"Success",
 					"Please vist update section for Center Details",

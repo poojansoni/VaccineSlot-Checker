@@ -3,8 +3,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Alert, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Input, CheckBox, Button } from "react-native-elements";
-import DistrictContext from "../../components/districtContext";
+import { CheckBox, Button } from "react-native-elements";
+import cowinContext from "../../components/cowinContext";
 
 const DistrictScreen = () => {
 	const maximumDate = new Date();
@@ -46,8 +46,8 @@ const DistrictScreen = () => {
 		return d;
 	};
 
-	const { states, districts, getStates, getDistricts } =
-		React.useContext(DistrictContext);
+	const { states, districts, getStates, getDistricts, getDistrictResponse } =
+		React.useContext(cowinContext);
 
 	const setStates = () => {
 		const stateArray = new Array();
@@ -103,7 +103,28 @@ const DistrictScreen = () => {
 		setStateOpen(false);
 	}, []);
 
-	const getUpdatesHandler = () => {};
+	const getUpdatesHandler = () => {
+		if (stateValue != null && districtValue != null) {
+			try {
+				// agegroup true for 18 to 44 and false for abv
+				// dosetype true for Dose1 and false for Dose2
+				let doseNum = dist_data.doseType ? 1 : 2;
+				let age = dist_data.ageGroup ? 18 : 45;
+				getDistrictResponse(districtValue, selecteDate(), doseNum, age);
+				Alert.alert(
+					"Success",
+					"Please vist update section for Center Details",
+					[{ text: "Okay" }],
+				);
+			} catch (err) {
+				Alert.alert("Error", "Something went wrong! " + err, [
+					{ text: "Okay" },
+				]);
+			}
+		} else {
+			Alert.alert("Error", "Please set all the fields", [{ text: "Okay" }]);
+		}
+	};
 
 	return (
 		<View style={{ flex: 1 }}>
