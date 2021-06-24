@@ -86,7 +86,7 @@ const SignInScreen = ({ navigation }) => {
 		}
 	};
 
-	const loginHandle = () => {
+	const loginHandle = async () => {
 		if (data.userEmail.length == 0 || data.password.length == 0) {
 			Alert.alert("Empty Input!", "Email or password field cannot be empty.", [
 				{ text: "Okay" },
@@ -100,11 +100,9 @@ const SignInScreen = ({ navigation }) => {
 			return;
 		}
 		try {
-			signIn(data.userEmail, data.password);
+			await signIn(data.userEmail, data.password);
 		} catch (error) {
-			Alert.alert("Invalid User!", "Email or password is incorrect.", [
-				{ text: "Okay" },
-			]);
+			Alert.alert("Invalid User!", "Email or password is incorrect.");
 			return;
 		}
 	};
